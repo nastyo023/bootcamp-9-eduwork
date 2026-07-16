@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nastyo Ferdian - Portfolio</title>
+    
+    <!-- Bootstrap 5 CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Tradisional CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    </head>
+<body>
+
+    <!-- ==================== SECTION 1: NAVBAR (MENU) ==================== -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom sticky-top">
+        <div class="container">
+            <a class="navbar-brand navbar-brand-custom" href="#">
+                nastyo<span>ferdian</span>
+            </a>
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav ms-auto align-items-center">
+                    <a class="nav-link nav-link-custom active" aria-current="page" href="#home">Home</a>
+                    <a class="nav-link nav-link-custom" href="#about">About</a>
+                    <a class="nav-link nav-link-custom" href="#projects">Project</a>
+                    <a class="nav-link nav-link-custom me-4" href="#contact">Contact</a>
+                    <a class="btn-contact-nav mt-2 mt-lg-0" href="#contact">Contact Me</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== SECTION 2: HERO HEADER ==================== -->
+    <section class="hero-section" id="home">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                
+                <!-- Kolom Teks Kiri -->
+                <div class="col-lg-7 text-center text-lg-start">
+                    <h5 class="hero-badge">Hello Buds</h5>
+                    <h1 class="hero-title">I am <span>Nastyo Ferdian</span></h1>
+                    <h4 class="hero-subtitle">Junior Web Developer &amp; UI Designer</h4>
+                    
+                    <!-- Garis Dekoratif Pendek di Atas Teks Paragraf -->
+                    <div style="width: 50px; height: 3px; background-color: var(--primary-purple); margin: 25px 0; display: inline-block; border-radius: 10px;"></div>
+                    
+                    <p class="hero-desc mx-auto mx-lg-0">
+                        I'm a person who has a keen interest in the design layout and web development. I think presenting an attractive design is a matter of concern in developing a branding of products. To create a good design, I focus on proper composition and visual decoration details in order to make it more professional. For the time being, I'm developing the skill for acquiring the UI/UX design for dynamic application and web development.
+                    </p>
+                    
+                    <!-- Tombol Aksi Hero -->
+                    <div class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-3">
+                        <a href="#contact" class="btn-purple">
+                            <i class="bi bi-file-earmark-text"></i> Download CV
+                        </a>
+                        <a href="#about" class="btn-outline-white">More About Me</a>
+                    </div>
+
+                    <!-- Hubungi Sosial Media di Kiri Bawah (Persis Mockup) -->
+                    <div class="social-container justify-content-center justify-content-lg-start">
+                        <span class="social-title">Find Me On</span>
+                        <a href="https://facebook.com" class="social-icon-btn" target="_blank" rel="noopener"><i class="bi bi-facebook"></i></a>
+                        <a href="https://instagram.com" class="social-icon-btn" target="_blank" rel="noopener"><i class="bi bi-instagram"></i></a>
+                        <a href="https://wa.me" class="social-icon-btn" target="_blank" rel="noopener"><i class="bi bi-whatsapp"></i></a>
+                        <a href="https://linkedin.com" class="social-icon-btn" target="_blank" rel="noopener"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+
+                <!-- Kolom Gambar Kanan dengan Ornamen Kompleks Sesuai Gambar -->
+                <div class="col-lg-5 d-flex justify-content-center">
+                    <div class="profile-container">
+                        <!-- Ornamen Plus di Belakang Foto Atas Kanan -->
+                        <div class="shape-plus">+</div>
+                        <!-- Ornamen Lingkaran Garis Belakang Kanan -->
+                        <div class="shape-circle"></div>
+                        <!-- Ornamen Gradasi Ungu/Blob di Belakang Foto Kiri Bawah -->
+                        <div class="shape-blob"></div>
+                        
+                        <!-- Gambar Profil Utama (Menggunakan placeholder modern Unsplash) -->
+                        <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=500&h=600&q=80" 
+                             class="profile-img-styled" 
+                             onerror="this.src='https://placehold.co/320x400/121214/ffffff?text=Nastyo+Ferdian'"
+                             alt="Nastyo Ferdian">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- PEMBATAS (DIVIDER) -->
+    <div class="section-divider"></div>
+
+    <!-- ==================== SECTION 3: TENTANG SAYA (BIODATA 6 BOX) ==================== -->
+    <section class="section-padding" id="about">
+        <div class="container">
+            
+            <div class="section-header">
+                <h2 class="section-title-global">Tentang Saya</h2>
+                <p class="section-subtitle-global">Perkenalan singkat mengenai latar belakang, keahlian, dan keseharian saya</p>
+            </div>
+
+            <!-- Grid 6 Boks Responsif -->
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                
+                <!-- Box 1: Full Name -->
+                <div class="col">
+                    <div class="bio-card-custom">
+                        <i class="bi bi-person-fill bio-card-icon"></i>
+                        <h4 class="bio-card-title">Full Name</h4>
+                        <hr class="bio-card-hr">
+                        <p class="bio-card-text">Nastyo Ferdian</p>
+                    </div>
+                </div>
+
+                <!-- Box 2: Education -->
+                <div class="col">
+                    <div class="bio-card-custom">
+                        <i class="bi bi-mortarboard-fill bio-card-icon"></i>
+                        <h4 class="bio-card-title">Education</h4>
+                        <hr class="bio-card-hr">
+                        <p class="bio-card-text">
+                            S1 Teknik Informatika<br>
+                            Universitas Indonesia
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Box 3: Pekerjaan -->
+                <div class="col">
+                    <div class="bio-card-custom">
+                        <i class="bi bi-briefcase-fill bio-card-icon"></i>
+                        <h4 class="bio-card-title">Pekerjaan</h4>
+                        <hr class="bio-card-hr">
+                        <p class="bio-card-text">Junior Web Developer &amp; UI Designer</p>
+                    </div>
+                </div>
+
+                <!-- Box 4: Contact -->
+                <div class="col">
+                    <div class="bio-card-custom">
+                        <i class="bi bi-envelope-fill bio-card-icon"></i>
+                        <h4 class="bio-card-title">Contact</h4>
+                        <hr class="bio-card-hr">
+                        <p class="bio-card-text">
+                            Email: nastyo@eduwork.com<br>
+                            Telp: +62 812-3456-789
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Box 5: Hobi -->
+                <div class="col">
+                    <div class="bio-card-custom">
+                        <i class="bi bi-heart-fill bio-card-icon"></i>
+                        <h4 class="bio-card-title">Hobi</h4>
+                        <hr class="bio-card-hr">
+                        <p class="bio-card-text">Olahraga, Coding, &amp; Membaca</p>
+                    </div>
+                </div>
+
+                <!-- Box 6: Alamat -->
+                <div class="col">
+                    <div class="bio-card-custom">
+                        <i class="bi bi-geo-alt-fill bio-card-icon"></i>
+                        <h4 class="bio-card-title">Alamat</h4>
+                        <hr class="bio-card-hr">
+                        <p class="bio-card-text">Jl. Sudirman No. 45, Jakarta Selatan, Indonesia</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- PEMBATAS (DIVIDER) -->
+    <div class="section-divider"></div>
+
+    <!-- ==================== SECTION 4: PORTOFOLIO ==================== -->
+    <section class="section-padding" id="projects">
+        <div class="container">
+            
+            <div class="section-header">
+                <h2 class="section-title-global">Portofolio</h2>
+                <p class="section-subtitle-global">Beberapa proyek sistem aplikasi digital yang telah saya kembangkan</p>
+            </div>
+
+            <!-- Grid 3 Kolom Portofolio Proyek -->
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                
+                <!-- Proyek 1 -->
+                <div class="col">
+                    <div class="project-card-custom">
+                        <div class="project-img-container">
+                            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=600&q=80" 
+                                 onerror="this.src='https://placehold.co/350x200/18181b/ffffff?text=Proyek+Kasir'" 
+                                 alt="Kasir UMKM" class="project-img-custom">
+                        </div>
+                        <div class="project-body-custom">
+                            <h4 class="project-name-custom">Proyek Sass Kasir UMKM</h4>
+                            <p class="project-desc-custom">
+                                Solusi sistem kasir yang cocok untuk usaha butik, toko sepatu, tas, buku, olahraga, mainan, handphone, gadget, aksesoris, dan lainnya.
+                            </p>
+                            <!-- Tombol Modal 1 -->
+                            <button class="btn-detail-proj text-center" data-bs-toggle="modal" data-bs-target="#projectModal1">
+                                Detail Proyek
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Proyek 2 -->
+                <div class="col">
+                    <div class="project-card-custom">
+                        <div class="project-img-container">
+                            <img src="https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=600&q=80" 
+                                 onerror="this.src='https://placehold.co/350x200/18181b/ffffff?text=Proyek+SIMRS'" 
+                                 alt="Web SIMRS" class="project-img-custom">
+                        </div>
+                        <div class="project-body-custom">
+                            <h4 class="project-name-custom">Proyek Web SIMRS</h4>
+                            <p class="project-desc-custom">
+                                Layanan kesehatan jadi lebih efektif dan efisien dengan aplikasi Sistem Informasi Manajemen Rumah Sakit (SIMRS).
+                            </p>
+                            <!-- Tombol Modal 2 -->
+                            <button class="btn-detail-proj text-center" data-bs-toggle="modal" data-bs-target="#projectModal2">
+                                Detail Proyek
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Proyek 3 -->
+                <div class="col">
+                    <div class="project-card-custom">
+                        <div class="project-img-container">
+                            <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=600&q=80" 
+                                 onerror="this.src='https://placehold.co/350x200/18181b/ffffff?text=Proyek+CBT'" 
+                                 alt="Proyek CBT" class="project-img-custom">
+                        </div>
+                        <div class="project-body-custom">
+                            <h4 class="project-name-custom">Proyek CBT</h4>
+                            <p class="project-desc-custom">
+                                KBM keren adalah platform Computer Based Test (CBT) berbasis web yang dirancang untuk menyelenggarakan ujian, kuis, dan sertifikasi secara daring.
+                            </p>
+                            <!-- Tombol Modal 3 -->
+                            <button class="btn-detail-proj text-center" data-bs-toggle="modal" data-bs-target="#projectModal3">
+                                Detail Proyek
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- PEMBATAS (DIVIDER) -->
+    <div class="section-divider"></div>
+
+    <!-- ==================== SECTION 5: HUBUNGI SAYA ==================== -->
+    <section class="section-padding" id="contact">
+        <div class="container">
+            
+            <div class="section-header">
+                <h2 class="section-title-global">Hubungi Saya</h2>
+                <p class="section-subtitle-global">Silakan hubungi saya untuk peluang kerja sama atau pertanyaan lainnya</p>
+            </div>
+
+            <!-- Form Kontak Futuristik -->
+            <div class="contact-form-box shadow-lg">
+                <form id="contactForm" onsubmit="handleContactSubmit(event)">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label class="form-label form-label-custom">Nama Lengkap</label>
+                            <input type="text" name="nama" class="form-control form-control-dark" placeholder="Masukkan nama Anda" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label form-label-custom">Email</label>
+                            <input type="email" name="email" class="form-control form-control-dark" placeholder="Masukkan alamat email" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label form-label-custom">Pesan</label>
+                            <textarea name="pesan" rows="5" class="form-control form-control-dark" placeholder="Tulis pesan Anda di sini..." required></textarea>
+                        </div>
+                        <div class="col-12 text-center text-md-start pt-2">
+                            <button type="submit" class="btn-purple px-5 py-3 border-0">
+                                <i class="bi bi-send-fill me-2"></i>Kirim Pesan
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Notifikasi Sukses Floting Toast -->
+    <div id="toastSuccess" class="toast-custom">
+        <i class="bi bi-check-circle-fill" style="font-size: 1.4rem;"></i>
+        <span>Pesan Anda berhasil dikirim! Terima kasih.</span>
+    </div>
+
+    <!-- ==================== SECTION 6: FOOTER ==================== -->
+    <footer class="main-footer">
+        <div class="container">
+            <p class="footer-text">&copy; 2026 Nastyo Ferdian. Hak Cipta Dilindungi Undang-Undang.</p>
+        </div>
+    </footer>
+
+
+    <!-- ==================== POP UP MODALS SECTION (BOOTSTRAP 5) ==================== -->
+    
+    <!-- Modal Proyek 1: Kasir UMKM -->
+    <div class="modal fade" id="projectModal1" tabindex="-1" aria-labelledby="projectModal1Label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content modal-content-dark">
+                <div class="modal-header modal-header-custom">
+                    <h5 class="modal-title fw-bold text-white" id="projectModal1Label">Proyek Sass Kasir UMKM</h5>
+                    <button type="button" class="btn-close btn-close-white-custom" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body modal-body-custom-inside">
+                    <div class="text-center mb-4">
+                        <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80" 
+                             onerror="this.src='https://placehold.co/600x300/18181b/ffffff?text=Kasir+Sass'" 
+                             class="img-fluid rounded-4 shadow mb-3" alt="Detail Kasir UMKM">
+                    </div>
+                    <p class="text-secondary-emphasis" style="color: var(--text-muted) !important;">
+                        Sistem kasir ini dirancang berbasis <strong>SaaS (Software as a Service)</strong> untuk mempermudah operasional berbagai macam bisnis ritel UMKM di Indonesia. 
+                    </p>
+                    <div class="p-3 rounded-3 mt-3" style="background-color: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle)">
+                        <h6 class="fw-bold mb-2 text-white">Fitur Utama:</h6>
+                        <ul class="mb-0 text-secondary-emphasis small" style="list-style-type: square; padding-left: 20px; color: var(--text-muted) !important;">
+                            <li>Manajemen Stok Produk &amp; Varian Real-time.</li>
+                            <li>Pencetakan struk digital &amp; fisik serta rekapitulasi harian terotomasi.</li>
+                            <li>Kompatibel dengan berbagai perangkat (Tablet, Laptop, HP).</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer modal-footer-custom">
+                    <button type="button" class="btn btn-secondary rounded-3 px-4 py-2" data-bs-dismiss="modal">Tutup</button>
+                    <a href="#contact" class="btn-purple py-2 px-4 rounded-3 text-decoration-none" data-bs-dismiss="modal">Hubungi Pembuat</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Proyek 2: SIMRS -->
+    <div class="modal fade" id="projectModal2" tabindex="-1" aria-labelledby="projectModal2Label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content modal-content-dark">
+                <div class="modal-header modal-header-custom">
+                    <h5 class="modal-title fw-bold text-white" id="projectModal2Label">Proyek Web SIMRS</h5>
+                    <button type="button" class="btn-close btn-close-white-custom" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body modal-body-custom-inside">
+                    <div class="text-center mb-4">
+                        <img src="https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=800&q=80" 
+                             onerror="this.src='https://placehold.co/600x300/18181b/ffffff?text=SIMRS+Web'" 
+                             class="img-fluid rounded-4 shadow mb-3" alt="Detail SIMRS">
+                    </div>
+                    <p class="text-secondary-emphasis" style="color: var(--text-muted) !important;">
+                        Sistem Informasi Manajemen Rumah Sakit (SIMRS) adalah platform yang menghubungkan rekam medis elektronik, antrean pasien, inventaris obat apotek, serta integrasi administrasi keuangan rumah sakit secara terpadu.
+                    </p>
+                    <div class="p-3 rounded-3 mt-3" style="background-color: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle)">
+                        <h6 class="fw-bold mb-2 text-white">Manfaat Sistem:</h6>
+                        <ul class="mb-0 text-secondary-emphasis small" style="list-style-type: square; padding-left: 20px; color: var(--text-muted) !important;">
+                            <li>Mengurangi antrean pendaftaran dengan registrasi online mandiri.</li>
+                            <li>Akurasi integrasi data rekam medis pasien antar poli pengobatan.</li>
+                            <li>Keamanan enkripsi data medis sesuai standar kementerian kesehatan.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer modal-footer-custom">
+                    <button type="button" class="btn btn-secondary rounded-3 px-4 py-2" data-bs-dismiss="modal">Tutup</button>
+                    <a href="#contact" class="btn-purple py-2 px-4 rounded-3 text-decoration-none" data-bs-dismiss="modal">Tutup &amp; Tanya Detail</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Proyek 3: CBT -->
+    <div class="modal fade" id="projectModal3" tabindex="-1" aria-labelledby="projectModal3Label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content modal-content-dark">
+                <div class="modal-header modal-header-custom">
+                    <h5 class="modal-title fw-bold text-white" id="projectModal3Label">Proyek CBT (Computer Based Test)</h5>
+                    <button type="button" class="btn-close btn-close-white-custom" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body modal-body-custom-inside">
+                    <div class="text-center mb-4">
+                        <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=800&q=80" 
+                             onerror="this.src='https://placehold.co/600x300/18181b/ffffff?text=CBT+Platform'" 
+                             class="img-fluid rounded-4 shadow mb-3" alt="Detail CBT">
+                    </div>
+                    <p class="text-secondary-emphasis" style="color: var(--text-muted) !important;">
+                        <strong>KBM Keren</strong> adalah platform Computer Based Test (CBT) berbasis web yang dirancang untuk menyelenggarakan ujian, kuis, dan sertifikasi secara daring (online) maupun luring (offline) secara efektif, efisien, dan aman. Platform ini mempermudah institusi pendidikan maupun perusahaan dalam mengelola seluruh siklus ujian, mulai dari pembuatan soal hingga penilaian otomatis secara real-time.
+                    </p>
+                    <div class="p-3 rounded-3 mt-3" style="background-color: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle)">
+                        <h6 class="fw-bold mb-2 text-white">Kelebihan Platform:</h6>
+                        <ul class="mb-0 text-secondary-emphasis small" style="list-style-type: square; padding-left: 20px; color: var(--text-muted) !important;">
+                            <li>Pembuatan bank soal dinamis dengan sistem pengacakan soal yang andal.</li>
+                            <li>Fitur keamanan *anti-cheat* (mendeteksi pergantian tab layar ujian).</li>
+                            <li>Analisis performa nilai instan berupa diagram pencapaian peserta ujian.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer modal-footer-custom">
+                    <button type="button" class="btn btn-secondary rounded-3 px-4 py-2" data-bs-dismiss="modal">Tutup</button>
+                    <a href="#contact" class="btn-purple py-2 px-4 rounded-3 text-decoration-none" data-bs-dismiss="modal">Hubungi Saya</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle with Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Handler form kontak interaktif dengan feedback visual cantik
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            
+            // Tampilkan notifikasi sukses kustom
+            const toast = document.getElementById('toastSuccess');
+            toast.classList.add('show');
+            
+            // Reset isian form
+            document.getElementById('contactForm').reset();
+            
+            // Sembunyikan notifikasi setelah 4 detik
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        // Fitur auto-active menu navbar berdasarkan posisi scroll halaman
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link-custom');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
