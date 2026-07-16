@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumina — Cozy Scandinavian Living</title>
+    <!-- Style CSS -->
+     <link rel="stylesheet" href="style.css">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Index JS -->
+    <script src="index.js" defer></script>
+    <!-- Bootstrap 5 Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
+    <!-- Google Fonts (Plus Jakarta Sans - Bersih, modern, dan sangat nyaman dibaca) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- ================================================================= -->
+    <!-- [MULAInya BAGIAN HTML / STRUKTUR HALAMAN] -->
+    <!-- ================================================================= -->
+    <nav class="navbar navbar-expand-lg navbar-light navbar-cozy sticky-top py-3">
+        <div class="container">
+            <a class="navbar-brand navbar-brand-cozy d-flex align-items-center" href="#">
+                <i class="bi bi-heart-fill me-2 fs-4" style="color: var(--brand-coral);"></i>
+                <span>Beli Aja <span>Dulu</span></span>
+            </a>
+            <div class="d-flex ms-auto align-items-center">
+                <!-- Tombol Keranjang Belanja -->
+                <button class="btn btn-cozy-outline position-relative rounded-pill px-4 py-2" data-bs-toggle="modal" data-bs-target="#cartModal">
+                    <i class="bi bi-bag-heart-fill fs-5 me-1"></i>
+                    <span class="d-none d-sm-inline">Keranjang Belanja</span>
+                    <span id="cartCountBadge" class="position-absolute rounded-circle px-2 py-0.5 fw-bold nav-cart-badge">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <!-- Hero Banner Berwarna Peach Sunset -->
+        <div class="hero-section text-center text-md-start">
+            <div class="row align-items-center py-2 px-md-4">
+                <div class="col-md-8">
+                    <span class="badge rounded-pill px-3 py-2 mb-3" style="background-color: var(--brand-mint-light); color: var(--brand-mint); font-weight: 700; letter-spacing: 0.5px;">KOLEKSI TERBARU GUGUR '26</span>
+                    <h1 class="display-5 fw-bold mb-3" style="letter-spacing: -1px; color: var(--cozy-charcoal);">Selamat Datang di Beli Aja Dulu</h1>
+                    <p class="lead mb-4 text-muted" style="max-width: 580px; font-size: 1.05rem; line-height: 1.6;">
+                        Kurasi dekorasi, tanaman, dan perlengkapan rumah bernapas modern. Dibuat penuh warna cerah yang membangkitkan kebahagiaan di sudut rumah Anda.
+                    </p>
+                    <a href="#katalog" class="btn btn-cozy-primary btn-lg px-4 py-3 rounded-pill shadow">Mulai Menjelajahi</a>
+                </div>
+                <div class="col-md-4 d-none d-md-block text-center">
+                    <i class="bi bi-sun-fill text-warning opacity-75" style="font-size: 9.5rem; color: var(--brand-gold) !important; filter: drop-shadow(0 4px 12px rgba(244, 178, 81, 0.3));"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="row pt-2" id="katalog">
+            <!-- Sidebar Filter Belanja -->
+            <div class="col-lg-3 mb-4">
+                <div class="filter-sidebar">
+                    <h5 class="fw-bold mb-3 d-flex align-items-center" style="color: var(--cozy-charcoal);">
+                        <i class="bi bi-sliders2-vertical me-2" style="color: var(--brand-coral);"></i> Filter Pilihan
+                    </h5>
+                    <hr style="opacity: 0.15; border-color: var(--brand-coral);">
+                    
+                    <!-- Cari Produk -->
+                    <div class="mb-4">
+                        <label for="searchInput" class="form-label fw-bold small text-uppercase" style="letter-spacing: 0.5px; color: var(--cozy-muted);">Cari Dekorasi</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0" style="border-color: var(--brand-peach);"><i class="bi bi-search text-muted"></i></span>
+                            <input type="text" id="searchInput" class="form-control bg-light border-start-0" placeholder="Cari sofa, lampu, cermin..." style="border-color: var(--brand-peach); font-size: 0.9rem;">
+                        </div>
+                    </div>
+
+                    <!-- Kategori Ruangan -->
+                    <div class="mb-4">
+                        <label class="form-label fw-bold small text-uppercase" style="letter-spacing: 0.5px; color: var(--cozy-muted);">Kategori Barang</label>
+                        <select id="categoryFilter" class="form-select bg-light" style="border-color: var(--brand-peach); font-size: 0.9rem;">
+                            <option value="all">Semua Kategori</option>
+                            <option value="Furnitur">Furnitur</option>
+                            <option value="Penerangan">Penerangan</option>
+                            <option value="Dekorasi">Dekorasi</option>
+                            <option value="Tekstil">Tekstil</option>
+                            <option value="Tanaman">Tanaman</option>
+                        </select>
+                    </div>
+
+                    <!-- Filter Rentang Harga -->
+                    <div class="mb-4">
+                        <label for="priceRange" class="form-label fw-bold d-flex justify-content-between small text-uppercase" style="letter-spacing: 0.5px; color: var(--cozy-muted);">
+                            <span>Batas Harga</span>
+                        </label>
+                        <div class="fw-bold mb-2" id="priceRangeValue" style="color: var(--brand-coral); font-size: 0.95rem;">Rp 5.000.000</div>
+                        <input type="range" class="form-range" id="priceRange" min="50000" max="5000000" step="50000" value="5000000">
+                        <div class="d-flex justify-content-between text-muted" style="font-size: 0.75rem;">
+                            <span>Rp 50rb</span>
+                            <span>Rp 5jt</span>
+                        </div>
+                    </div>
+
+                    <!-- Urutan Filter -->
+                    <div class="mb-4">
+                        <label class="form-label fw-bold small text-uppercase" style="letter-spacing: 0.5px; color: var(--cozy-muted);">Urutan Harga</label>
+                        <select id="sortFilter" class="form-select bg-light" style="border-color: var(--brand-peach); font-size: 0.9rem;">
+                            <option value="none">Rekomendasi Utama</option>
+                            <option value="low-to-high">Harga: Terendah ke Tinggi</option>
+                            <option value="high-to-low">Harga: Tertinggi ke Rendah</option>
+                        </select>
+                    </div>
+
+                    <!-- Tombol Atur Ulang -->
+                    <button id="btnResetFilters" class="btn btn-cozy-reset w-100 rounded-pill mt-2 py-2">
+                        <i class="bi bi-arrow-counterclockwise"></i> Reset Filter
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-lg-9">
+                <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+                    <h5 class="fw-bold m-0" style="color: var(--cozy-charcoal);">
+                        Koleksi Karya Pilihan (<span id="productCounter" style="color: var(--brand-coral);">0</span>)
+                    </h5>
+                    <span class="badge p-2 px-3 rounded-pill text-dark" id="activeFiltersLabel" style="background-color: var(--brand-peach); font-size: 0.8rem; font-weight: 600;">Menampilkan Koleksi Pilihan</span>
+                </div>
+
+                <!-- Products Display Area (Grid) -->
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4" id="productsGrid">
+                    <!-- Dinjeksi otomatis dari JS -->
+                </div>
+
+                <!-- Empty State (Jika produk tidak ditemukan) -->
+                <div id="emptyState" class="text-center py-5 d-none bg-white rounded-4 border p-4 shadow-sm" style="border-color: var(--brand-peach) !important;">
+                    <i class="bi bi-emoji-frown text-muted display-3 d-block mb-3" style="color: var(--brand-coral) !important;"></i>
+                    <h5 class="fw-bold" style="color: var(--cozy-charcoal);">Hasil Pencarian Kosong</h5>
+                    <p class="text-muted small">Silakan coba kata kunci lain atau ubah setelan batas harga filter Anda.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 28px; background-color: var(--cozy-bg);">
+                <div class="modal-header border-bottom-0 p-4 pb-2" style="background-color: white; border-radius: 28px 28px 0 0;">
+                    <h5 class="modal-title fw-bold" id="cartModalLabel" style="color: var(--cozy-charcoal);">
+                        <i class="bi bi-bag-heart-fill me-2" style="color: var(--brand-coral);"></i>Keranjang Belanja
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 pt-2">
+                    <div id="cartItemsList" class="d-flex flex-column gap-3">
+                        <!-- Dinjeksi dari JS -->
+                    </div>
+                    <div id="emptyCartState" class="text-center py-5">
+                        <i class="bi bi-cart-x text-muted display-3 d-block mb-3" style="opacity: 0.4;"></i>
+                        <h6 class="fw-bold">Keranjang Anda Masih Kosong</h6>
+                        <p class="text-muted small">Ayo beri sentuhan estetik penuh warna di rumah Anda hari ini!</p>
+                    </div>
+                </div>
+                <div class="modal-footer border-top-0 d-flex justify-content-between p-4" style="background-color: white; border-radius: 0 0 28px 28px;">
+                    <div>
+                        <h6 class="text-muted small mb-0">Total Estimasi:</h6>
+                        <h4 class="fw-bold m-0" style="color: var(--brand-coral);" id="cartTotalPrice">Rp 0</h4>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-cozy-outline rounded-pill px-4" data-bs-dismiss="modal">Kembali</button>
+                        <button type="button" id="btnCheckout" class="btn btn-cozy-mint rounded-pill px-4">Selesaikan Pembayaran</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Area -->
+    <div class="toast-container-custom">
+        <div id="cartToast" class="toast align-items-center text-white border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true" style="background-color: var(--brand-mint); border-radius: 16px;">
+            <div class="d-flex py-1">
+                <div class="toast-body">
+                    <i class="bi bi-check-circle-fill me-2"></i> Produk berhasil ditambahkan ke keranjang belanja Anda!
+                </div>
+                <button type="button" class="btn-close btn-close-white m-auto me-2" data-bs-toast="dismiss" aria-label="Close"></button>
+            </div>
+        </div>
+        <div id="checkoutToast" class="toast align-items-center text-white border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true" style="background-color: var(--brand-coral); border-radius: 16px;">
+            <div class="d-flex py-1">
+                <div class="toast-body">
+                    <i class="bi bi-patch-check-fill me-2"></i> Transaksi berhasil! Paket Anda sedang disiapkan dengan cinta.
+                </div>
+                <button type="button" class="btn-close btn-close-white m-auto me-2" data-bs-toast="dismiss" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-5 mt-5 border-top" style="background-color: var(--brand-peach); border-color: rgba(255, 111, 89, 0.15) !important;">
+        <div class="container">
+            <div class="row py-2">
+                <div class="col-md-6 mb-4 mb-md-0">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="bi bi-heart-fill me-2 fs-3" style="color: var(--brand-coral) !important;"></i>
+                        <span class="fs-4 fw-bold" style="color: var(--cozy-charcoal);">Lumina<span style="color: var(--brand-coral);">.</span></span>
+                    </div>
+                    <p class="text-muted small" style="max-width: 420px; line-height: 1.6;">
+                        Membantu menghadirkan kebahagiaan di hunian Anda dengan mengombinasikan desain fungsional minimalis modern dengan warna-warna cerah yang menyegarkan pikiran.
+                    </p>
+                </div>
+                <div class="col-md-3 mb-4 mb-md-0">
+                    <h6 class="fw-bold mb-3" style="color: var(--cozy-charcoal);">Kategori Estetik</h6>
+                    <ul class="list-unstyled text-muted small lh-lg">
+                        <li>Furnitur Berkelanjutan</li>
+                        <li>Penerangan Hangat</li>
+                        <li>Seni & Keramik Hias</li>
+                        <li>Tekstil Serat Organik</li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3" style="color: var(--cozy-charcoal);">Hubungi Kami</h6>
+                    <p class="text-muted small mb-1"><i class="bi bi-geo-alt me-2"></i> Bandung, Indonesia</p>
+                    <p class="text-muted small mb-1"><i class="bi bi-envelope me-2"></i> halo@lumina.id</p>
+                    <p class="text-muted small"><i class="bi bi-telephone me-2"></i> +62 822-LUMINA</p>
+                </div>
+            </div>
+            <hr style="opacity: 0.1; margin: 2rem 0; border-color: var(--brand-coral);">
+            <div class="text-center text-muted small">
+                <p class="m-0">&copy; 2026 Lumina Cozy Living. Hak Cipta Dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

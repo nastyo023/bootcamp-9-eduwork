@@ -1,0 +1,246 @@
+:root {
+            /* Palet Warna Baru: Cerah, Berwarna, Estetik, dan Segar (Anti-Pucat) */
+            --cozy-bg: #FCFAF7;          /* Cream Terang yang Hangat */
+            --cozy-card-bg: #FFFFFF;     /* Putih Bersih */
+            --cozy-charcoal: #2D312E;    /* Charcoal Gelap Lembut (Teks Utama) */
+            --cozy-muted: #626D66;       /* Abu-abu Kehijauan Medium (Teks Deskripsi) */
+            
+            /* Warna Aksen Utama yang Cerah & Hidup */
+            --brand-coral: #FF6F59;      /* Sunset Coral Cerah (Tombol Utama & Aksen Penting) */
+            --brand-coral-dark: #E0533D; /* Coral Pekat */
+            --brand-mint: #3EAB94;       /* Mint Green Segar (Kategori & Badge) */
+            --brand-mint-light: #EBF7F4; /* Mint Muda Transparan */
+            --brand-gold: #F4B251;       /* Gold Cerah Menyenangkan */
+            --brand-peach: #FFF0EB;      /* Peach Lembut Terang (Background Hero & Card Hover) */
+            
+            /* Bayangan (Shadows) */
+            --cozy-shadow: 0 10px 30px -10px rgba(255, 111, 89, 0.1);
+            --cozy-shadow-hover: 0 20px 40px -10px rgba(255, 111, 89, 0.25);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--cozy-bg);
+            color: var(--cozy-charcoal);
+            overflow-x: hidden;
+        }
+
+        /* Kustomisasi Scrollbar agar Selaras */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--cozy-bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #E5DDD3;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--brand-coral);
+        }
+
+        .navbar-cozy {
+            background-color: rgba(252, 250, 247, 0.85) !important;
+            backdrop-filter: blur(12px);
+            border-bottom: 2px solid var(--brand-peach);
+        }
+
+        .navbar-brand-cozy {
+            font-weight: 800;
+            color: var(--cozy-charcoal);
+            letter-spacing: -0.5px;
+        }
+
+        .navbar-brand-cozy span {
+            color: var(--brand-coral);
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--brand-peach) 0%, #FFFDF9 100%);
+            color: var(--cozy-charcoal);
+            padding: 5rem 2.5rem;
+            border-radius: 32px;
+            margin-bottom: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(255, 111, 89, 0.15);
+        }
+
+        .hero-section::before {
+            content: "";
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(255, 111, 89, 0.25) 0%, rgba(252, 250, 247, 0) 70%);
+            border-radius: 50%;
+        }
+
+        .product-card {
+            border: 2px solid var(--brand-peach);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            background: var(--cozy-card-bg);
+            box-shadow: var(--cozy-shadow);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--cozy-shadow-hover);
+            border-color: var(--brand-coral);
+        }
+
+        .product-img-wrapper {
+            position: relative;
+            padding-top: 100%; /* 1:1 Aspect Ratio */
+            background-color: var(--brand-peach);
+            overflow: hidden;
+        }
+
+        .product-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .product-card:hover .product-img {
+            transform: scale(1.08);
+        }
+
+        .category-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            z-index: 2;
+            background-color: #FFFFFF;
+            color: var(--brand-mint);
+            font-weight: 800;
+            font-size: 0.72rem;
+            padding: 6px 14px;
+            border-radius: 30px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 12px rgba(62, 171, 148, 0.15);
+            border: 1px solid var(--brand-mint-light);
+        }
+
+        .filter-sidebar {
+            background-color: var(--cozy-card-bg);
+            border: 2px solid var(--brand-peach);
+            border-radius: 28px;
+            padding: 2rem;
+            box-shadow: var(--cozy-shadow);
+            position: sticky;
+            top: 100px;
+        }
+
+        .btn-cozy-primary {
+            background-color: var(--brand-coral);
+            color: #ffffff;
+            border: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .btn-cozy-primary:hover, .btn-cozy-primary:active, .btn-cozy-primary:focus {
+            background-color: var(--brand-coral-dark);
+            color: #ffffff;
+            box-shadow: 0 6px 20px rgba(255, 111, 89, 0.35);
+        }
+
+        .btn-cozy-outline {
+            background-color: transparent;
+            color: var(--brand-coral);
+            border: 2px solid var(--brand-coral);
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .btn-cozy-outline:hover {
+            background-color: var(--brand-coral);
+            color: #ffffff;
+            border-color: var(--brand-coral);
+        }
+
+        .btn-cozy-mint {
+            background-color: var(--brand-mint);
+            color: #ffffff;
+            border: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .btn-cozy-mint:hover {
+            background-color: #2e8b77;
+            color: #ffffff;
+            box-shadow: 0 6px 20px rgba(62, 171, 148, 0.3);
+        }
+
+        .btn-cozy-reset {
+            background-color: transparent;
+            color: #dc3545;
+            border: 2px solid #dc3545;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .btn-cozy-reset:hover {
+            background-color: #dc3545;
+            color: #ffffff;
+        }
+
+        .price-text {
+            color: var(--brand-coral);
+            font-weight: 800;
+            font-size: 1.15rem;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            background: var(--brand-coral);
+            border: 2px solid #FFFFFF;
+            box-shadow: 0 2px 8px rgba(255, 111, 89, 0.4);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            background: var(--brand-coral);
+            border: 2px solid #FFFFFF;
+            box-shadow: 0 2px 8px rgba(255, 111, 89, 0.4);
+        }
+
+        .toast-container-custom {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 1100;
+        }
+
+        .nav-cart-badge {
+            font-size: 0.72rem;
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background-color: var(--brand-coral) !important;
+            color: #ffffff !important;
+            box-shadow: 0 2px 8px rgba(255, 111, 89, 0.4);
+        }
+
+        .cart-card {
+            border: 2px solid var(--brand-peach);
+            background: #ffffff;
+            border-radius: 20px;
+            transition: all 0.2s ease;
+        }
+
+        .cart-card:hover {
+            border-color: var(--brand-mint);
+        }
