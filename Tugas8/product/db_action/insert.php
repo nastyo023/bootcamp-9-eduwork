@@ -30,14 +30,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // If there are no validation errors, proceed to insert the data into the database
+    // If there are no validation errors, proceed to insert the data into the database
     if (empty($errors)) {
         // Move the uploaded image to the desired directory
         $upload_dir = '../../uploads/';
+        
+        // TAMBAHKAN KODE INI: Cek dan buat folder jika belum ada
+        if (!is_dir($upload_dir)) {
+            mkdir($upload_dir, 0777, true);
+        }
+
         //remove space from the image name and replace it with underscore
         $image = str_replace(' ', '_', $image);
         $image = time() . '_' . basename($image); // Rename the image to avoid conflicts
         $image_path = $upload_dir . $image;
+        
         if (move_uploaded_file($image_tmp, $image_path)) {
+            // ... (lanjutan kode query database Anda)
             // Prepare the SQL statement to insert the product data into the database
             $sql = "INSERT INTO products (name, category, price, stock, description, image) VALUES (:name, :category, :price, :stock, :description, :image)";
             $stmt = $pdo->prepare($sql);
