@@ -1,22 +1,21 @@
 <?php
 require_once '../connect.php';
-//form edit product data
+// form edit product data
 
-//get product id from query parameter
+// Get product ID from query parameter
 $productId = $_GET['id'];
-//Fetch product data from the database
+// Fetch product data from the database
 $sql = "SELECT * FROM products WHERE id = :id";
 $stmt = $pdo->prepare($sql);
-$stmt->bindParam(':id', $productId);
-$stmt->execute();
+$stmt->execute([':id' => $productId]);
 $product = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$product) {
-    echo "Product not found.";
-    exit();
+    echo "Product not found!";
+    exit;
 }
 
-$page_title = "Edit Product - WebDev App";
-include '../template/header.php';
+$page_title = "Edit Produk - WebDev App";
+include_once '../template/header.php';
 ?>
 <main class="container my-5">
     <h1 class="mb-4">Edit Produk</h1>
