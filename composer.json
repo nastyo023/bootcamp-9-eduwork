@@ -1,0 +1,15 @@
+{
+    "name": "nastyo/bootcamp-9-eduwork",
+    "autoload": {
+        "psr-4": {
+            "Nastyo\\Bootcamp9Eduwork\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "nastyo023",
+            "email": "nastyoferdian023@gmail.com"
+        }
+    ],
+    "require": {}
+}
