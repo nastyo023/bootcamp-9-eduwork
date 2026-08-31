@@ -10,10 +10,10 @@
             <div class="text-gray-900 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                 @foreach($data as $item)
                     <div class="w-full p-4 bg-white rounded-lg shadow-md">
-                        <h3 class="text-2xl font-bold mb-2">{{ $item['value'] }}</h3>
+                        <h3 class="text-2xl font-bold mb-2">{{ is_array($item) ? $item['value'] : $item->value }}</h3>
                         <div class="flex gap-3 items-center text-gray-500 text-[14px]">
-                            <div>{!! $item['icon'] !!}</div>
-                            <div class="">{{ $item['title'] }}</div>
+                            <div>{!! is_array($item) ? $item['icon'] : $item->icon !!}</div>
+                            <div class="">{{ is_array($item) ? $item['title'] : $item->title }}</div>
                         </div>
                     </div>
                 @endforeach
@@ -34,7 +34,7 @@
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead>
                                 <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">order_id</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Amount</th>
@@ -44,17 +44,27 @@
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @foreach($orderDataForTable as $row)
+                                    @php
+                                        // Mengubah $row menjadi object agar mudah diakses
+                                        $order = (object) $row;
+                                    @endphp
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <a href="{{ route('orders.show', $row->order_number) }}" class="text-blue-500 hover:underline">
-                                            {{ $row->order_number }}
+                                            <a href="{{ route('orders.show', $order->order_number ?? $order->id ?? 1) }}" class="text-blue-500 hover:underline">
+                                                {{ $order->order_number ?? $order->id ?? '-' }}
                                             </a>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $row->customer_name }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $row->customer_phone }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">Rp{{ number_format($row->total_amount, 0, ',', '.') }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $row->status }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $row->created_at->format('Y-m-d H:i:s') }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $order->customer_name ?? $order->name ?? '-' }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $order->customer_phone ?? $order->phone ?? '-' }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">Rp{{ number_format($order->total_amount ?? $order->total ?? 0, 0, ',', '.') }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $order->status ?? 'pending' }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            @if(isset($order->created_at))
+                                                {{ is_string($order->created_at) ? $order->created_at : $order->created_at->format('Y-m-d H:i:s') }}
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -71,11 +81,11 @@
         const orderChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: @json($orderDataForChartJs['order_count']['labels']),
+                labels: @json($orderDataForChartJs['order_count']['labels'] ?? []),
                 datasets: [
                     {
                         label: 'Order Count',
-                        data: @json($orderDataForChartJs['order_count']['data']),
+                        data: @json($orderDataForChartJs['order_count']['data'] ?? []),
                         borderColor: '#3b82f6',
                         backgroundColor: 'transparent',
                         borderWidth: 2,
@@ -89,7 +99,7 @@
                     },
                     {
                         label: 'Order Revenue',
-                        data: @json($orderDataForChartJs['order_revenue']['data']),
+                        data: @json($orderDataForChartJs['order_revenue']['data'] ?? []),
                         borderColor: '#10b981',
                         backgroundColor: 'transparent',
                         borderWidth: 2,
