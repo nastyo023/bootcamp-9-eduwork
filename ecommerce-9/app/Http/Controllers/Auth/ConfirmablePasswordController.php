@@ -3,38 +3,48 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
-class ConfirmablePasswordController extends Controller
+class AuthenticatedSessionController extends Controller
 {
     /**
-     * Show the confirm password view.
+     * Display the login view.
      */
-    public function show(): View
+    public function create(): View
     {
-        return view('auth.confirm-password');
+        return view('auth.login');
     }
 
     /**
-     * Confirm the user's password.
+     * Handle an incoming authentication request.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(LoginRequest $request): RedirectResponse
     {
-        if (! Auth::guard('web')->validate([
-            'email' => $request->user()->email,
-            'password' => $request->password,
-        ])) {
-            throw ValidationException::withMessages([
-                'password' => __('auth.password'),
-            ]);
+        $request->authenticate();
+
+        $request->session()->regenerate();
+
+        if($request->has('redirect')) {
+            return redirect($request->input('redirect'));
         }
+        return redirect()->intended(route('home', absolute: false));
+    }
 
-        $request->session()->put('auth.password_confirmed_at', time());
+    /**
+     * Destroy an authenticated session.
+     */
+    public function destroy(Request $request): RedirectResponse
+    {
+        Auth::guard('web')->logout();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/');
     }
 }

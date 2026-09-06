@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Pengecekan agar tidak terjadi error "Duplicate column name 'role'"
-        if (!Schema::hasColumn('users', 'role')) {
-            Schema::table('users', function (Blueprint $table) {
-                $table->string('role')->default('user')->after('email');
-            });
-        }
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('role')->default('user')->after('email');
+        });
     }
 
     /**
@@ -24,10 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        if (Schema::hasColumn('users', 'role')) {
-            Schema::table('users', function (Blueprint $table) {
-                $table->dropColumn('role');
-            });
-        }
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('role');
+        });
     }
 };

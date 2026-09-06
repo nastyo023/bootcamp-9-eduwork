@@ -8,102 +8,53 @@ use Illuminate\Support\Str;
 
 class ProductCategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $categories = ProductCategory::withCount(['products'])
-                        // ->with([
-                        //     'products' => function($query) {
-                        //         $query->where('stock', '>', 50);
-                        //     }
-                        // ])
-                        ->withSum('products', 'stock')
-                        ->get();
-        return view('dashboards.product-categories.index', compact('categories'));
+        $categories = ProductCategory::withCount('products')->latest()->paginate(10);
+        return view('dashboards.categories.index', compact('categories'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('dashboards.categories.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|min:3|max:50',
+            'name' => 'required|string|max:255|unique:product_categories,name',
         ]);
-
-        if(ProductCategory::where('name', $request->name)->exists()) {
-            return back()->withErrors(['name' => 'The category name already exists.'])->withInput();
-        }
-
-        $slug = Str::slug($request->name); // example: "Electronics and Accessories" becomes "electronics-and-accessories"
 
         ProductCategory::create([
             'name' => $request->name,
-            'slug' => $slug,
+            'slug' => Str::slug($request->name),
         ]);
 
-        return back()->with('success', 'Product category created successfully.');
+        return redirect()->route('admin.product-categories.index')->with('success', 'Kategori berhasil ditambahkan!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(ProductCategory $productCategory)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(ProductCategory $productCategory)
     {
-        //
+        return view('dashboards.categories.edit', compact('productCategory'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, ProductCategory $productCategory)
     {
         $request->validate([
-            'name' => 'required|string|min:3|max:50'
+            'name' => 'required|string|max:255|unique:product_categories,name,' . $productCategory->id,
         ]);
-
-        if(ProductCategory::where('name', $request->name)->where('id', '!=', $productCategory->id)->exists()) {
-            return back()->withErrors(['name' => 'The category name "' . $request->name . '" already exists.'])->withInput();
-        }
-
-        $slug = Str::slug($request->name);
 
         $productCategory->update([
             'name' => $request->name,
-            'slug' => $slug,
+            'slug' => Str::slug($request->name),
         ]);
 
-        return back()->with('success', 'Product category updated successfully.');
+        return redirect()->route('admin.product-categories.index')->with('success', 'Kategori berhasil diperbarui!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(ProductCategory $productCategory)
     {
-        if($productCategory->products()->count() > 0) {
-            return back()->withErrors(['error' => 'Cannot delete category with associated products.']);
-        }
-        
         $productCategory->delete();
-        return back()->with('success', 'Product category deleted successfully.');
+        return redirect()->route('admin.product-categories.index')->with('success', 'Kategori berhasil dihapus!');
     }
 }

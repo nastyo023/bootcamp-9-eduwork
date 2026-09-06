@@ -2,64 +2,73 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CartItem;
+use App\Models\CartItem; // atau Cart (sesuaikan nama Model kamu)
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartItemController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        // Ambil semua item keranjang milik user yang sedang login
+        $carts = CartItem::with('product')
+            ->where('user_id', Auth::id())
+            ->get();
+
+        return view('carts.index', compact('carts'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'quantity'   => 'nullable|integer|min:1',
+        ]);
+
+        $userId = Auth::id();
+        $productId = $request->product_id;
+        $quantity = $request->quantity ?? 1;
+
+        // Cek apakah produk sudah ada di keranjang user ini
+        $cartItem = CartItem::where('user_id', $userId)
+            ->where('product_id', $productId)
+            ->first();
+
+        if ($cartItem) {
+            // Jika sudah ada, tambahkan quantity-nya
+            $cartItem->quantity += $quantity;
+            $cartItem->save();
+        } else {
+            // Jika belum ada, buat record baru
+            CartItem::create([
+                'user_id'    => $userId,
+                'product_id' => $productId,
+                'quantity'   => $quantity,
+            ]);
+        }
+
+        return redirect()->route('carts.index')->with('success', 'Produk berhasil ditambahkan ke keranjang!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(CartItem $cartItem)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        $cartItem = CartItem::where('user_id', Auth::id())->findOrFail($id);
+        $cartItem->update([
+            'quantity' => $request->quantity,
+        ]);
+
+        return back()->with('success', 'Jumlah produk berhasil diperbarui!');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(CartItem $cartItem)
+    public function destroy($id)
     {
-        //
-    }
+        $cartItem = CartItem::where('user_id', Auth::id())->findOrFail($id);
+        $cartItem->delete();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, CartItem $cartItem)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(CartItem $cartItem)
-    {
-        //
+        return back()->with('success', 'Produk dihapus dari keranjang!');
     }
 }
