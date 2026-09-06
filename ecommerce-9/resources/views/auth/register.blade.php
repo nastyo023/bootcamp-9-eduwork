@@ -1,52 +1,122 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
+@extends('layouts.app')
 
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+@section('content')
+<div class="container py-4 py-md-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-12 col-md-8 col-lg-5">
+            
+            <!-- Card Container Register -->
+            <div class="card border-0 shadow-lg rounded-4 p-4 p-md-5 bg-white">
+                
+                <!-- Header Card -->
+                <div class="text-center mb-4">
+                    <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 65px; height: 65px;">
+                        <i class="fa-solid fa-user-plus fs-3"></i>
+                    </div>
+                    <h3 class="fw-bold text-dark mb-1">Buat Akun Baru</h3>
+                    <p class="text-muted small mb-0">Bergabunglah dan nikmati kemudahan berbelanja</p>
+                </div>
+
+                <!-- Form Register -->
+                <form method="POST" action="{{ route('register') }}">
+                    @csrf
+
+                    <!-- Name Input -->
+                    <div class="mb-3">
+                        <label for="name" class="form-label fw-semibold text-secondary small">Nama Lengkap</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0 text-muted"><i class="fa-regular fa-user"></i></span>
+                            <input id="name" type="text" name="name" value="{{ old('name') }}" required autofocus autocomplete="name"
+                                   class="form-control bg-light border-start-0 @error('name') is-invalid @enderror" 
+                                   placeholder="Masukkan nama lengkap">
+                        </div>
+                        @error('name')
+                            <span class="text-danger small mt-1 d-block"><i class="bi bi-exclamation-circle me-1"></i>{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <!-- Email Input -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label fw-semibold text-secondary small">Alamat Email</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0 text-muted"><i class="fa-regular fa-envelope"></i></span>
+                            <input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="username"
+                                   class="form-control bg-light border-start-0 @error('email') is-invalid @enderror" 
+                                   placeholder="nama@email.com">
+                        </div>
+                        @error('email')
+                            <span class="text-danger small mt-1 d-block"><i class="bi bi-exclamation-circle me-1"></i>{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <!-- Password Input -->
+                    <div class="mb-3">
+                        <label for="password" class="form-label fw-semibold text-secondary small">Kata Sandi</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0 text-muted"><i class="fa-solid fa-lock"></i></span>
+                            <input id="password" type="password" name="password" required autocomplete="new-password"
+                                   class="form-control bg-light border-start-0 border-end-0 @error('password') is-invalid @enderror" 
+                                   placeholder="••••••••">
+                            <button class="btn btn-light border border-start-0 text-muted" type="button" onclick="togglePassword('password', 'eyeIcon1')">
+                                <i class="fa-regular fa-eye" id="eyeIcon1"></i>
+                            </button>
+                        </div>
+                        @error('password')
+                            <span class="text-danger small mt-1 d-block"><i class="bi bi-exclamation-circle me-1"></i>{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <!-- Confirm Password Input -->
+                    <div class="mb-4">
+                        <label for="password_confirmation" class="form-label fw-semibold text-secondary small">Konfirmasi Kata Sandi</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0 text-muted"><i class="fa-solid fa-shield-halved"></i></span>
+                            <input id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password"
+                                   class="form-control bg-light border-start-0 border-end-0 @error('password_confirmation') is-invalid @enderror" 
+                                   placeholder="••••••••">
+                            <button class="btn btn-light border border-start-0 text-muted" type="button" onclick="togglePassword('password_confirmation', 'eyeIcon2')">
+                                <i class="fa-regular fa-eye" id="eyeIcon2"></i>
+                            </button>
+                        </div>
+                        @error('password_confirmation')
+                            <span class="text-danger small mt-1 d-block"><i class="bi bi-exclamation-circle me-1"></i>{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary w-100 py-2.5 rounded-3 fw-bold shadow-sm">
+                        <i class="fa-solid fa-user-plus me-1"></i> Daftar Sekarang
+                    </button>
+
+                </form>
+
+                <!-- Login Link -->
+                <div class="text-center mt-4 pt-3 border-top">
+                    <p class="text-muted small mb-0">Sudah punya akun? 
+                        <a href="{{ route('login') }}" class="text-primary fw-bold text-decoration-none">Masuk di sini</a>
+                    </p>
+                </div>
+
+            </div>
+
         </div>
+    </div>
+</div>
 
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+<!-- Script Show / Hide Password -->
+<script>
+    function togglePassword(inputId, iconId) {
+        const input = document.getElementById(inputId);
+        const icon = document.getElementById(iconId);
+        if (input.type === "password") {
+            input.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        } else {
+            input.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        }
+    }
+</script>
+@endsection

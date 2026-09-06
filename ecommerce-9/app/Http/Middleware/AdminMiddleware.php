@@ -11,15 +11,15 @@ class AdminMiddleware
 {
     /**
      * Handle an incoming request.
-     *
-     * @param  Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
+        // Pengecekan apakah user sudah login dan role-nya adalah 'admin'
         if (Auth::check() && Auth::user()->role === 'admin') {
             return $next($request);
         }
 
-        abort(403, 'Unauthorized action.');
+        // Tampilkan error 403 jika bukan admin
+        abort(403, 'Akses ditolak. Halaman ini hanya untuk Admin.');
     }
 }

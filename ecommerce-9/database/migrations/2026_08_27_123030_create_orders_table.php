@@ -14,13 +14,14 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('order_number')->unique();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('customer_name');
             $table->string('customer_phone');
-            $table->string('customer_address');
+            $table->text('customer_address'); // Menggunakan text agar muat alamat panjang
             $table->integer('total_amount');
             $table->enum('status', ['pending', 'processing', 'completed', 'cancelled'])->default('pending');
             $table->string('payment_method');
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->string('payment_proof')->nullable(); // Ditambahkan langsung di sini
             $table->timestamps();
         });
     }

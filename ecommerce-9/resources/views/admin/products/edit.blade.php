@@ -1,0 +1,106 @@
+@extends('admin.layouts.app')
+
+@section('title', 'Edit Produk')
+@section('page-title', 'Edit Data Produk')
+
+@section('content')
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-header bg-white border-0 py-3">
+                <div class="d-flex align-items-center gap-2">
+                    <a href="{{ route('admin.products.index') }}" class="btn btn-light border btn-sm rounded-circle">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                    <h5 class="fw-bold text-dark mb-0">Edit Produk #{{ $product->id }}</h5>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <form action="{{ route('admin.products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+
+                    <div class="row g-3">
+                        <!-- Nama Produk -->
+                        <div class="col-md-8">
+                            <label for="name" class="form-label fw-semibold">Nama Produk <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', $product->name) }}" required>
+                            @error('name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- Kategori -->
+                        <div class="col-md-4">
+                            <label for="category_id" class="form-label fw-semibold">Kategori <span class="text-danger">*</span></label>
+                            <select class="form-select @error('category_id') is-invalid @enderror" id="category_id" name="category_id" required>
+                                <option value="" disabled>Pilih Kategori</option>
+                                @foreach($categories ?? [] as $category)
+                                    <option value="{{ $category->id }}" {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('category_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- Harga -->
+                        <div class="col-md-6">
+                            <label for="price" class="form-label fw-semibold">Harga (Rp) <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">Rp</span>
+                                <input type="number" class="form-control @error('price') is-invalid @enderror" id="price" name="price" value="{{ old('price', $product->price) }}" min="0" required>
+                            </div>
+                            @error('price')
+                                <div class="text-danger small mt-1">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- Stok -->
+                        <div class="col-md-6">
+                            <label for="stock" class="form-label fw-semibold">Jumlah Stok <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control @error('stock') is-invalid @enderror" id="stock" name="stock" value="{{ old('stock', $product->stock) }}" min="0" required>
+                            @error('stock')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- Deskripsi Produk -->
+                        <div class="col-12">
+                            <label for="description" class="form-label fw-semibold">Deskripsi Produk</label>
+                            <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="4">{{ old('description', $product->description) }}</textarea>
+                            @error('description')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- Gambar Saat Ini & Upload Baru -->
+                        <div class="col-12">
+                            <label for="image" class="form-label fw-semibold">Gambar Produk</label>
+                            @if($product->image)
+                                <div class="mb-2">
+                                    <img src="{{ asset('storage/' . $product->image) }}" alt="Gambar Produk" class="rounded-3 object-fit-cover border" style="width: 100px; height: 100px;">
+                                </div>
+                            @endif
+                            <input class="form-control @error('image') is-invalid @enderror" type="file" id="image" name="image" accept="image/*">
+                            <small class="text-muted d-block mt-1">Biarkan kosong jika tidak ingin mengubah gambar.</small>
+                            @error('image')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+                        <a href="{{ route('admin.products.index') }}" class="btn btn-light px-4 rounded-3">Batal</a>
+                        <button type="submit" class="btn btn-primary px-4 rounded-3 fw-semibold">
+                            <i class="bi bi-pencil-square me-1"></i> Perbarui Produk
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
