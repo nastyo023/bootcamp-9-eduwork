@@ -16,6 +16,20 @@
                 </div>
             </div>
             <div class="card-body p-4">
+
+                {{-- Alert jika ada kesalahan validasi --}}
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show rounded-3 mb-4" role="alert">
+                        <strong><i class="bi bi-exclamation-triangle-fill me-2"></i>Gagal menyimpan data:</strong>
+                        <ul class="mb-0 mt-2 small">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+
                 <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
@@ -29,18 +43,18 @@
                             @enderror
                         </div>
 
-                        <!-- Kategori -->
+                        <!-- Kategori (Diselaraskan ke product_category_id) -->
                         <div class="col-md-4">
-                            <label for="category_id" class="form-label fw-semibold">Kategori <span class="text-danger">*</span></label>
-                            <select class="form-select @error('category_id') is-invalid @enderror" id="category_id" name="category_id" required>
+                            <label for="product_category_id" class="form-label fw-semibold">Kategori <span class="text-danger">*</span></label>
+                            <select class="form-select @error('product_category_id') is-invalid @enderror" id="product_category_id" name="product_category_id" required>
                                 <option value="" selected disabled>Pilih Kategori</option>
                                 @foreach($categories ?? [] as $category)
-                                    <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                    <option value="{{ $category->id }}" {{ old('product_category_id') == $category->id ? 'selected' : '' }}>
                                         {{ $category->name }}
                                     </option>
                                 @endforeach
                             </select>
-                            @error('category_id')
+                            @error('product_category_id')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>

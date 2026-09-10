@@ -14,32 +14,33 @@ class FeedbackController extends Controller
         $request->validate([
             'order_id' => 'required|exists:orders,id',
             'rating'   => 'required|integer|min:1|max:5',
-            'comment'  => 'required|string|max:1000',
+            'comment'  => 'nullable|string',
         ]);
 
-        $order = Order::where('id', $request->order_id)
-                      ->where('user_id', Auth::id())
-                      ->firstOrFail();
+        $order = Order::with('orderItems')->findOrFail($request->order_id);
 
-        // Validasi: Hanya pesanan bernilai 'completed' yang bisa diberi ulasan
-        if ($order->status !== 'completed') {
+        if (strtolower($order->status) !== 'completed') {
             return redirect()->back()->with('error', 'Hanya pesanan yang sudah selesai yang dapat diberi ulasan.');
         }
 
-        // Cek apakah pesanan ini sudah pernah diberi ulasan sebelumnya
+        // Cek ulasan ganda
         $existingFeedback = Feedback::where('order_id', $order->id)->first();
         if ($existingFeedback) {
             return redirect()->back()->with('error', 'Anda sudah memberikan ulasan untuk pesanan ini.');
         }
 
+        // Ambil order_item_id pertama jika ada
+        $firstOrderItem = $order->orderItems->first();
+
         // Simpan feedback
         Feedback::create([
-            'user_id'  => Auth::id(),
-            'order_id' => $order->id,
-            'rating'   => $request->rating,
-            'comment'  => $request->comment,
+            'user_id'       => Auth::id(),
+            'order_id'      => $order->id,
+            'order_item_id' => $firstOrderItem ? $firstOrderItem->id : null,
+            'rating'        => $request->rating,
+            'comment'       => $request->comment,
         ]);
 
-        return redirect()->back()->with('success', 'Terima kasih! Ulasan Anda berhasil dikirim.');
+        return redirect()->back()->with('success', 'Terima kasih atas ulasan Anda!');
     }
 }

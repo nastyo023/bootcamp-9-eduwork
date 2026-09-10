@@ -79,6 +79,24 @@
     </div>
 </div>
 
+<!-- Section Grafik Penjualan (Chart.js) -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h5 class="fw-bold text-dark mb-1">Grafik Pendapatan Penjualan</h5>
+                    <p class="text-muted small mb-0">Statistik pendapatan per bulan pada tahun {{ date('Y') }}</p>
+                </div>
+                <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill">Tahun {{ date('Y') }}</span>
+            </div>
+            <div style="position: relative; height: 320px; width: 100%;">
+                <canvas id="salesChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Tabel Transaksi Terbaru -->
 <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
     <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
@@ -107,11 +125,15 @@
                                 <span class="fw-semibold">{{ $order->user->name ?? 'Guest' }}</span>
                             </div>
                         </td>
-                        <td class="fw-semibold">Rp {{ number_format($order->total_price, 0, ',', '.') }}</td>
+                        <td class="fw-semibold">Rp {{ number_format($order->total_price ?? $order->total_amount ?? 0, 0, ',', '.') }}</td>
                         <td>
                             @switch($order->status)
+                                @case('completed')
                                 @case('paid')
-                                    <span class="badge bg-success bg-opacity-10 text-success px-3 py-2 rounded-pill">Lunas</span>
+                                    <span class="badge bg-success bg-opacity-10 text-success px-3 py-2 rounded-pill">Selesai / Lunas</span>
+                                    @break
+                                @case('processing')
+                                    <span class="badge bg-info bg-opacity-10 text-info px-3 py-2 rounded-pill">Diproses</span>
                                     @break
                                 @case('pending')
                                     <span class="badge bg-warning bg-opacity-10 text-warning px-3 py-2 rounded-pill">Menunggu</span>
@@ -141,3 +163,67 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<!-- Library Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ctx = document.getElementById('salesChart').getContext('2d');
+        
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+                datasets: [{
+                    label: 'Pendapatan (Rp)',
+                    data: @json($chartData ?? array_fill(0, 12, 0)),
+                    borderColor: '#0d6efd',
+                    backgroundColor: 'rgba(13, 110, 253, 0.08)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.35,
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    pointBackgroundColor: '#0d6efd'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let value = context.raw || 0;
+                                return ' Pendapatan: Rp ' + value.toLocaleString('id-ID');
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return 'Rp ' + (value / 1000).toLocaleString('id-ID') + 'k';
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
+@endpush

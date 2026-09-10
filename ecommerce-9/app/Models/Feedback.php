@@ -9,11 +9,13 @@ class Feedback extends Model
 {
     use HasFactory;
 
+    // Sesuaikan nama tabel jika di MySQL kamu bernama 'feedbacks' atau 'feedback'
     protected $table = 'feedbacks';
 
     protected $fillable = [
         'user_id',
         'order_id',
+        'order_item_id',
         'rating',
         'comment',
     ];
@@ -28,5 +30,8 @@ class Feedback extends Model
         return $this->belongsTo(Order::class);
     }
 
-    
+    public function orderItem()
+    {
+        return $this->belongsTo(OrderItem::class);
+    }
 }

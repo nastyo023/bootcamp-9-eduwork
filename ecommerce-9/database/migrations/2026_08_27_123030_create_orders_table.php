@@ -19,7 +19,8 @@ return new class extends Migration
             $table->string('customer_phone');
             $table->text('customer_address'); // Menggunakan text agar muat alamat panjang
             $table->integer('total_amount');
-            $table->enum('status', ['pending', 'processing', 'completed', 'cancelled'])->default('pending');
+            // DITAMBAHKAN: 'shipped' dan 'canceled'
+            $table->enum('status', ['pending', 'processing', 'shipped', 'completed', 'cancelled', 'canceled'])->default('pending');
             $table->string('payment_method');
             $table->string('payment_proof')->nullable(); // Ditambahkan langsung di sini
             $table->timestamps();
