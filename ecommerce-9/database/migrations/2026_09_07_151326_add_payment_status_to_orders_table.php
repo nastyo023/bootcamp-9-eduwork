@@ -9,12 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('orders', function (Blueprint $table) {
-            // Cek & tambah kolom payment_proof jika belum ada
-            if (!Schema::hasColumn('orders', 'payment_proof')) {
-                $table->string('payment_proof')->nullable()->after('status');
-            }
-
-            // Cek & tambah kolom payment_status jika belum ada
+            // Cek apakah kolom payment_status BELUM ADA sebelum menambahkannya
             if (!Schema::hasColumn('orders', 'payment_status')) {
                 $table->string('payment_status')->default('unpaid')->after('status');
             }
@@ -24,10 +19,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('orders', function (Blueprint $table) {
-            if (Schema::hasColumn('orders', 'payment_proof')) {
-                $table->dropColumn('payment_proof');
-            }
-
             if (Schema::hasColumn('orders', 'payment_status')) {
                 $table->dropColumn('payment_status');
             }

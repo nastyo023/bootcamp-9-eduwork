@@ -25,20 +25,18 @@ class Order extends Model
         'total_amount' => 'decimal:2',
     ];
 
-    /**
-     * Menggunakan order_number sebagai kunci bawaan Route Model Binding
-     */
+    /* HAPUS/COMMENT METHOD INI AGAR ROUTE ADMIN MENGGUNAKAN ID
     public function getRouteKeyName()
     {
         return 'order_number';
     }
+    */
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    // Mendukung pemanggilan $order->items maupun $order->orderItems
     public function items()
     {
         return $this->hasMany(OrderItem::class);

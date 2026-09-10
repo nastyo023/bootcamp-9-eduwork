@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->unique();
             $table->text('description');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->integer('stock');
             $table->integer('price');
             $table->foreignId('product_category_id')->constrained('product_categories')->onDelete('cascade');

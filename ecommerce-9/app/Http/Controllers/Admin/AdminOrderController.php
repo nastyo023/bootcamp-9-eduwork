@@ -8,38 +8,52 @@ use Illuminate\Http\Request;
 
 class AdminOrderController extends Controller
 {
-    /**
-     * Menampilkan daftar seluruh transaksi masuk.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Order::with('user')->latest()->paginate(10);
+        $query = Order::with('user');
+
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('id', 'like', '%' . $request->search . '%')
+                  ->orWhere('order_number', 'like', '%' . $request->search . '%')
+                  ->orWhereHas('user', function ($qUser) use ($request) {
+                      $qUser->where('name', 'like', '%' . $request->search . '%');
+                  });
+            });
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $orders = $query->latest()->paginate(10);
+
         return view('admin.transactions.index', compact('orders'));
     }
 
-    /**
-     * Menampilkan detail transaksi & bukti pembayaran.
-     */
     public function show($id)
     {
-        $order = Order::with(['user', 'orderItems.product'])->findOrFail($id);
+        // Cari spesifik berdasarkan ID agar tidak terpengaruh getRouteKeyName
+        $order = Order::with(['user', 'orderItems.product'])
+            ->where('id', $id)
+            ->firstOrFail();
+
         return view('admin.transactions.show', compact('order'));
     }
 
-    /**
-     * Memperbarui status pesanan (Pending, Paid, Processing, Shipped, Completed, Cancelled).
-     */
-    public function updateStatus(Request $request, $id)
+    public function update(Request $request, $id)
     {
+        // Cari spesifik berdasarkan ID
+        $order = Order::where('id', $id)->firstOrFail();
+
+        // Validasi mendukung semua variasi status yang ada di migration
         $request->validate([
-            'status' => 'required|in:pending,paid,processing,shipped,completed,cancelled',
+            'status' => 'required|string|in:pending,processing,shipped,completed,cancelled,canceled',
         ]);
 
-        $order = Order::findOrFail($id);
-        $order->update([
-            'status' => $request->status,
-        ]);
+        $order->status = $request->status;
+        $order->save();
 
-        return back()->with('success', 'Status pesanan berhasil diperbarui!');
+        return redirect()->back()->with('success', 'Status transaksi berhasil diperbarui!');
     }
 }

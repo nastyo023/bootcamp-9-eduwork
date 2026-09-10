@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -18,8 +17,8 @@ class ProductSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        // Data produk untuk setiap kategori
-        $productNames = [
+        // 1. Data Kategori & Produk
+        $data = [
             'Electronics' => [
                 'Wireless Bluetooth Headphones', 'USB-C Cable 2m', '4K Webcam HD', 'Portable Power Bank',
                 'Mechanical Gaming Keyboard', 'Wireless Mouse Pro', 'LED Desk Lamp', 'Phone Stand',
@@ -47,10 +46,14 @@ class ProductSeeder extends Seeder
             ]
         ];
 
-        $categories = ProductCategory::all();
-
-        foreach ($categories as $category) {
-            $products = $productNames[$category->name] ?? [];
+        // 2. Loop Setiap Kategori dan Insert Produknya
+        foreach ($data as $categoryName => $products) {
+            
+            // Buat kategori jika belum ada di database
+            $category = ProductCategory::firstOrCreate(
+                ['name' => $categoryName],
+                ['slug' => Str::slug($categoryName)]
+            );
 
             foreach ($products as $productName) {
                 DB::table('products')->insert([

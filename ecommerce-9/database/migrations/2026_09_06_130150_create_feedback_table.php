@@ -12,9 +12,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('order_id')->constrained()->onDelete('cascade');
-            $table->foreignId('order_item_id')->nullable()->constrained()->onDelete('cascade'); // Menghubungkan ke OrderItem
-            $table->tinyInteger('rating')->default(5); // Menggunakan tinyInteger untuk angka 1-5
-            $table->text('comment')->nullable(); // Dibuat nullable jika user hanya memberi rating bintang
+            $table->foreignId('order_item_id')->nullable()->constrained()->onDelete('cascade');
+            $table->tinyInteger('rating')->default(5);
+            $table->text('comment')->nullable();
             $table->timestamps();
         });
     }

@@ -14,7 +14,7 @@ use App\Http\Controllers\FeedbackController;
 // Controller Admin
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\AdminProductController;
-use App\Http\Controllers\Admin\ProductCategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\Admin\AdminFeedbackController;
 
@@ -62,8 +62,10 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->as('admin.')->group(funct
     // 3. CRUD Product Category
     Route::resource('categories', AdminCategoryController::class);
 
-    // 4. Transaction Management (Kelola Pesanan dari Sisi Admin)
-    Route::resource('transactions', AdminOrderController::class)->only(['index', 'show', 'update']);
+    // 4. Transaction Management (Pemisahan eksplisit untuk penanganan PATCH update status)
+    Route::get('/transactions', [AdminOrderController::class, 'index'])->name('transactions.index');
+    Route::get('/transactions/{id}', [AdminOrderController::class, 'show'])->name('transactions.show');
+    Route::patch('/transactions/{id}', [AdminOrderController::class, 'update'])->name('transactions.update');
 
     // 5. Kelola Masukan / Reviews Pelanggan
     Route::get('/reviews', [AdminFeedbackController::class, 'index'])->name('reviews.index');
