@@ -65,12 +65,27 @@
                                             $subtotal = $price * $cartItem->quantity;
                                             $grandTotal += $subtotal;
                                         @endphp
-                                        <div class="d-flex justify-content-between align-items-center mb-3">
-                                            <div>
-                                                <h6 class="fw-bold mb-0 text-dark">{{ $cartItem->product->name ?? 'Produk' }}</h6>
-                                                <small class="text-muted">{{ $cartItem->quantity }}x @ Rp {{ number_format($price, 0, ',', '.') }}</small>
+                                        <div class="d-flex justify-content-between align-items-center mb-3 pe-2">
+                                            <div class="d-flex align-items-center gap-3">
+                                                {{-- Penanganan Gambar Produk (Mendukung URL Luar/Storage + Fallback Onerror) --}}
+                                                @if(isset($cartItem->product->image) && $cartItem->product->image)
+                                                    <img src="{{ \Illuminate\Support\Str::startsWith($cartItem->product->image, 'http') ? $cartItem->product->image : asset('storage/' . $cartItem->product->image) }}" 
+                                                         onerror="this.onerror=null; this.src='https://placehold.co/100x100?text=No+Image';" 
+                                                         class="rounded border" 
+                                                         style="width: 48px; height: 48px; object-fit: cover;" 
+                                                         alt="{{ $cartItem->product->name ?? 'Produk' }}">
+                                                @else
+                                                    <div class="bg-light border rounded d-flex align-items-center justify-content-center text-muted" style="width: 48px; height: 48px;">
+                                                        <i class="bi bi-image fs-6"></i>
+                                                    </div>
+                                                @endif
+
+                                                <div>
+                                                    <h6 class="fw-bold mb-0 text-dark" style="font-size: 0.95rem;">{{ $cartItem->product->name ?? 'Produk' }}</h6>
+                                                    <small class="text-muted">{{ $cartItem->quantity }}x @ Rp {{ number_format($price, 0, ',', '.') }}</small>
+                                                </div>
                                             </div>
-                                            <span class="fw-bold text-secondary">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
+                                            <span class="fw-bold text-secondary ms-2">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
                                         </div>
                                     @endforeach
                                 </div>

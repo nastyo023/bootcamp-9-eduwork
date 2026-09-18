@@ -82,8 +82,28 @@
                     <tr>
                         <td class="ps-4">
                             @if($product->image)
-                                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="product-img border">
+                                @php
+                                    // Otomatis deteksi & atur URL gambar agar tidak bentrok
+                                    if (Str::startsWith($product->image, ['http://', 'https://'])) {
+                                        $imageUrl = $product->image;
+                                    } else {
+                                        $cleanPath = ltrim(Str::replaceFirst('public/', '', $product->image), '/');
+                                        $cleanPath = ltrim(Str::replaceFirst('storage/', '', $cleanPath), '/');
+                                        $imageUrl = asset('storage/' . $cleanPath);
+                                    }
+                                @endphp
+
+                                <img src="{{ $imageUrl }}" 
+                                     alt="{{ $product->name }}" 
+                                     class="product-img border"
+                                     onerror="this.onerror=null; this.remove(); this.nextElementSibling.classList.remove('d-none');">
+                                
+                                {{-- Placeholder alternatif jika file fisik di storage tidak ditemukan --}}
+                                <div class="product-img border bg-light d-flex align-items-center justify-content-center text-muted d-none">
+                                    <i class="bi bi-image fs-4"></i>
+                                </div>
                             @else
+                                {{-- Placeholder jika image bernilai NULL --}}
                                 <div class="product-img border bg-light d-flex align-items-center justify-content-center text-muted">
                                     <i class="bi bi-image fs-4"></i>
                                 </div>

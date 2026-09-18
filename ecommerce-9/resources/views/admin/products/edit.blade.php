@@ -93,11 +93,28 @@
                         <!-- Gambar Saat Ini & Upload Baru -->
                         <div class="col-12">
                             <label for="image" class="form-label fw-semibold">Gambar Produk</label>
+                            
                             @if($product->image)
+                                @php
+                                    // Otomatis cek & bersihkan path agar tidak bentrok
+                                    if (\Illuminate\Support\Str::startsWith($product->image, ['http://', 'https://'])) {
+                                        $imageUrl = $product->image;
+                                    } else {
+                                        $cleanPath = ltrim(\Illuminate\Support\Str::replaceFirst('public/', '', $product->image), '/');
+                                        $cleanPath = ltrim(\Illuminate\Support\Str::replaceFirst('storage/', '', $cleanPath), '/');
+                                        $imageUrl = asset('storage/' . $cleanPath);
+                                    }
+                                @endphp
+
                                 <div class="mb-2">
-                                    <img src="{{ asset('storage/' . $product->image) }}" alt="Gambar Produk" class="rounded-3 object-fit-cover border" style="width: 100px; height: 100px;">
+                                    <img src="{{ $imageUrl }}" 
+                                         alt="Gambar Produk" 
+                                         class="rounded-3 object-fit-cover border" 
+                                         style="width: 100px; height: 100px;"
+                                         onerror="this.onerror=null; this.src='https://via.placeholder.com/100?text=No+Image';">
                                 </div>
                             @endif
+
                             <input class="form-control @error('image') is-invalid @enderror" type="file" id="image" name="image" accept="image/*">
                             <small class="text-muted d-block mt-1">Biarkan kosong jika tidak ingin mengubah gambar.</small>
                             @error('image')
