@@ -13,13 +13,16 @@
             <div class="card-body p-4">
                 <div class="row g-4 align-items-center">
                     
-                    <!-- Area Gambar Produk -->
+                    <!-- Area Gambar Produk (Sudah Diperbaiki untuk URL External & Local Storage) -->
                     <div class="col-md-5 text-center">
-                        <div class="bg-light rounded p-3 border overflow-hidden" style="max-height: 380px;">
-                            @if ($product->image && file_exists(public_path($product->image)))
-                                <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" class="img-fluid rounded" style="max-height: 340px; object-fit: contain;">
-                            @elseif (isset($product->image_url) && $product->image_url)
-                                <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="img-fluid rounded" style="max-height: 340px; object-fit: contain;">
+                        <div class="bg-light rounded p-3 border overflow-hidden d-flex align-items-center justify-content-center" style="min-height: 340px; max-height: 380px;">
+                            @if ($product->image)
+                                <img 
+                                    src="{{ \Illuminate\Support\Str::startsWith($product->image, 'http') ? $product->image : asset('storage/' . $product->image) }}" 
+                                    alt="{{ $product->name }}" 
+                                    class="img-fluid rounded" 
+                                    style="max-height: 340px; object-fit: contain;"
+                                >
                             @else
                                 <div class="py-5 text-muted">
                                     <i class="bi bi-image fs-1 d-block mb-2"></i>

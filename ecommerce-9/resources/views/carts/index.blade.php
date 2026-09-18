@@ -47,8 +47,9 @@
                                             <tr>
                                                 <td class="ps-4 py-3">
                                                     <div class="d-flex align-items-center gap-3">
+                                                        {{-- Perbaikan Penanganan Gambar Produk (Unsplash vs Local Storage) --}}
                                                         @if(isset($cart->product->image) && $cart->product->image)
-                                                            <img src="{{ asset('storage/' . $cart->product->image) }}" class="rounded border" style="width: 50px; height: 50px; object-fit: cover;" alt="">
+                                                            <img src="{{ \Illuminate\Support\Str::startsWith($cart->product->image, 'http') ? $cart->product->image : asset('storage/' . $cart->product->image) }}" class="rounded border" style="width: 50px; height: 50px; object-fit: cover;" alt="{{ $cart->product->name ?? 'Produk' }}">
                                                         @else
                                                             <div class="bg-light border rounded d-flex align-items-center justify-content-center text-muted" style="width: 50px; height: 50px;">
                                                                 <i class="bi bi-image fs-5"></i>
@@ -64,7 +65,7 @@
                                                     Rp {{ number_format($price, 0, ',', '.') }}
                                                 </td>
 
-                                                <!-- Bagian Tambah/Kurang Quantity (Diperbaiki) -->
+                                                <!-- Bagian Tambah/Kurang Quantity -->
                                                 <td class="text-center">
                                                     <div class="d-flex align-items-center justify-content-center gap-1">
                                                         <!-- Tombol Kurangi (-) -->

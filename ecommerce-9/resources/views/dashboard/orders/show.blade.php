@@ -37,10 +37,10 @@
         @endif
 
         <div class="row g-4">
-            <!-- Rincian Produk & Pengiriman (Sisi Kiri) -->
+            <!-- RINCIAN PRODUK & PENGIRIMAN (SISI KIRI) -->
             <div class="col-lg-8">
                 
-                <!-- RINCIAN PRODUK -->
+                <!-- TABEL PRODUK -->
                 <div class="card border-0 shadow-sm rounded-3 mb-4">
                     <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
                         <h5 class="fw-bold m-0">Produk yang Dibeli</h5>
@@ -59,28 +59,39 @@
                                 </thead>
                                 <tbody>
                                     @forelse($order->orderItems as $item)
+                                        @php
+                                            $itemPrice = $item->price ?? $item->unit_price ?? 0;
+                                            $itemQty = $item->quantity ?? $item->qty ?? 1;
+                                            $itemSubtotal = $itemPrice * $itemQty;
+                                            $productImage = optional($item->product)->image ?? $item->image ?? null;
+                                            $productName = optional($item->product)->name ?? $item->product_name ?? 'Produk';
+                                        @endphp
                                         <tr>
                                             <td class="ps-4">
                                                 <div class="d-flex align-items-center gap-3">
-                                                    @if(optional($item->product)->image)
-                                                        <img src="{{ asset('storage/' . $item->product->image) }}" alt="{{ $item->product->name }}" class="rounded" style="width: 55px; height: 55px; object-fit: cover;">
+                                                    @if($productImage)
+                                                        <img src="{{ \Illuminate\Support\Str::startsWith($productImage, 'http') ? $productImage : asset('storage/' . $productImage) }}" 
+                                                             alt="{{ $productName }}" 
+                                                             class="rounded border" 
+                                                             style="width: 55px; height: 55px; object-fit: cover;"
+                                                             onerror="this.onerror=null; this.src='https://placehold.co/100x100?text=No+Image';">
                                                     @else
-                                                        <div class="bg-light rounded d-flex align-items-center justify-content-center text-muted" style="width: 55px; height: 55px;">
+                                                        <div class="bg-light rounded border d-flex align-items-center justify-content-center text-muted" style="width: 55px; height: 55px;">
                                                             <i class="fa-solid fa-image fs-4"></i>
                                                         </div>
                                                     @endif
                                                     <div>
-                                                        <h6 class="fw-semibold mb-1 text-dark">{{ optional($item->product)->name ?? 'Produk Tidak Ditemukan' }}</h6>
-                                                        @if(isset($item->variant))
-                                                            <span class="badge bg-light text-secondary border fs- tiny">Varian: {{ $item->variant }}</span>
+                                                        <h6 class="fw-semibold mb-1 text-dark">{{ $productName }}</h6>
+                                                        @if(isset($item->variant) && $item->variant)
+                                                            <span class="badge bg-light text-secondary border">Varian: {{ $item->variant }}</span>
                                                         @endif
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td class="text-center">Rp{{ number_format($item->price, 0, ',', '.') }}</td>
-                                            <td class="text-center"><span class="badge bg-light text-dark px-2 py-1 border">{{ $item->quantity }}</span></td>
+                                            <td class="text-center">Rp {{ number_format($itemPrice, 0, ',', '.') }}</td>
+                                            <td class="text-center"><span class="badge bg-light text-dark px-2 py-1 border">{{ $itemQty }}</span></td>
                                             <td class="text-end pe-4 fw-semibold text-primary">
-                                                Rp{{ number_format($item->price * $item->quantity, 0, ',', '.') }}
+                                                Rp {{ number_format($itemSubtotal, 0, ',', '.') }}
                                             </td>
                                         </tr>
                                     @empty
@@ -96,7 +107,7 @@
                     </div>
                 </div>
 
-                <!-- INFORMASI PENGIRIMAN & NO RESI -->
+                <!-- INFORMASI PENGIRIMAN & RESI -->
                 <div class="card border-0 shadow-sm rounded-3">
                     <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
                         <h5 class="fw-bold m-0"><i class="fa-solid fa-location-dot me-2 text-danger"></i> Informasi Pengiriman</h5>
@@ -107,19 +118,20 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-7 mb-3 mb-md-0">
-                                <p class="fw-semibold mb-1">{{ $order->customer_name ?? auth()->user()?->name ?? 'Pelanggan' }}</p>
-                                <p class="text-muted mb-1"><i class="fa-solid fa-phone me-1 small"></i> {{ $order->customer_phone ?? '-' }}</p>
-                                <p class="text-muted mb-0"><i class="fa-solid fa-map-marker-alt me-1 small"></i> {{ $order->customer_address ?? $order->shipping_address ?? 'Alamat pengiriman belum diisi.' }}</p>
+                                <p class="fw-semibold mb-1">{{ $order->customer_name ?? $order->name ?? auth()->user()?->name ?? 'Pelanggan' }}</p>
+                                <p class="text-muted mb-1"><i class="fa-solid fa-phone me-1 small"></i> {{ $order->customer_phone ?? $order->phone ?? '-' }}</p>
+                                <p class="text-muted mb-0"><i class="fa-solid fa-map-marker-alt me-1 small"></i> {{ $order->customer_address ?? $order->shipping_address ?? $order->address ?? 'Alamat pengiriman belum diisi.' }}</p>
                             </div>
                             
-                            <!-- INFORMASI RESI (JIKA SUDAH DIKIRIM) -->
-                            @if($order->tracking_number)
+                            <!-- INFORMASI RESI -->
+                            @if($order->tracking_number ?? $order->resi_number)
+                                @php $resi = $order->tracking_number ?? $order->resi_number; @endphp
                                 <div class="col-md-5 border-start-md ps-md-4">
                                     <div class="p-3 bg-light rounded-3 border">
                                         <span class="text-muted small d-block mb-1">Nomor Resi:</span>
                                         <div class="d-flex align-items-center justify-content-between">
-                                            <strong class="text-primary fs-6 mb-0">{{ $order->tracking_number }}</strong>
-                                            <button class="btn btn-sm btn-outline-secondary py-0 px-2" onclick="navigator.clipboard.writeText('{{ $order->tracking_number }}')" title="Salin Resi">
+                                            <strong class="text-primary fs-6 mb-0">{{ $resi }}</strong>
+                                            <button class="btn btn-sm btn-outline-secondary py-0 px-2" onclick="navigator.clipboard.writeText('{{ $resi }}')" title="Salin Resi">
                                                 <i class="fa-regular fa-copy"></i>
                                             </button>
                                         </div>
@@ -134,7 +146,7 @@
                 </div>
             </div>
 
-            <!-- Status & Rincian Pembayaran (Sisi Kanan) -->
+            <!-- RINGKASAN PESANAN (SISI KANAN) -->
             <div class="col-lg-4">
                 <div class="card border-0 shadow-sm rounded-3">
                     <div class="card-header bg-white py-3 border-bottom">
@@ -160,7 +172,7 @@
                         <!-- METODE PEMBAYARAN -->
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <span class="text-muted">Metode Pembayaran:</span>
-                            <span class="fw-semibold text-uppercase badge bg-light text-dark border">{{ str_replace('_', ' ', $order->payment_method ?? '-') }}</span>
+                            <span class="fw-semibold text-uppercase badge bg-light text-dark border">{{ str_replace('_', ' ', $order->payment_method ?? 'COD') }}</span>
                         </div>
 
                         <hr class="my-3">
@@ -168,25 +180,22 @@
                         <!-- RINCIAN BIAYA -->
                         <div class="d-flex justify-content-between mb-2">
                             <span class="text-muted">Subtotal Produk</span>
-                            <span>Rp{{ number_format($order->subtotal ?? $order->total_amount ?? $order->total_price ?? 0, 0, ',', '.') }}</span>
+                            <span>Rp {{ number_format($order->subtotal ?? $order->total_amount ?? $order->total_price ?? 0, 0, ',', '.') }}</span>
                         </div>
                         
-                        @if(isset($order->shipping_cost) && $order->shipping_cost > 0)
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted">Biaya Pengiriman</span>
-                                <span>Rp{{ number_format($order->shipping_cost, 0, ',', '.') }}</span>
-                            </div>
-                        @else
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted">Biaya Pengiriman</span>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Biaya Pengiriman</span>
+                            @if(isset($order->shipping_cost) && $order->shipping_cost > 0)
+                                <span>Rp {{ number_format($order->shipping_cost, 0, ',', '.') }}</span>
+                            @else
                                 <span class="text-success fw-semibold">Gratis</span>
-                            </div>
-                        @endif
+                            @endif
+                        </div>
 
                         @if(isset($order->discount) && $order->discount > 0)
                             <div class="d-flex justify-content-between mb-2 text-danger">
                                 <span>Diskon / Potongan</span>
-                                <span>-Rp{{ number_format($order->discount, 0, ',', '.') }}</span>
+                                <span>-Rp {{ number_format($order->discount, 0, ',', '.') }}</span>
                             </div>
                         @endif
 
@@ -194,10 +203,10 @@
 
                         <div class="d-flex justify-content-between mb-4">
                             <span class="fw-bold text-dark fs-6">Total Pembayaran</span>
-                            <span class="fw-bold text-primary fs-5">Rp{{ number_format($order->total_amount ?? $order->total_price ?? 0, 0, ',', '.') }}</span>
+                            <span class="fw-bold text-primary fs-5">Rp {{ number_format($order->total_amount ?? $order->total_price ?? 0, 0, ',', '.') }}</span>
                         </div>
 
-                        <!-- SECTION UPLOAD BUKTI BAYAR -->
+                        <!-- BUKTI PEMBAYARAN -->
                         <div class="pt-3 border-top mb-3">
                             <h6 class="fw-bold mb-3"><i class="fa-solid fa-receipt me-1 text-primary"></i> Bukti Pembayaran</h6>
 
@@ -212,14 +221,13 @@
                                 </div>
                             @endif
 
-                            @if($order->status == 'pending' && $order->payment_method !== 'cod')
+                            @if($order->status == 'pending' && strtolower($order->payment_method ?? '') !== 'cod')
                                 <div class="alert alert-warning border-0 small mb-3">
                                     <i class="fa-solid fa-circle-info me-1"></i> Silakan unggah bukti transfer agar pesanan diproses.
                                 </div>
                                 <form action="{{ route('orders.uploadPayment', $order->id) }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <div class="mb-3">
-                                        <!-- PREVIEW GAMBAR SEBELUM UPLOAD -->
                                         <div id="imagePreviewContainer" class="d-none mb-2 text-center">
                                             <img id="imagePreview" src="#" alt="Preview Gambar" class="img-fluid rounded border" style="max-height: 150px;">
                                         </div>
@@ -232,14 +240,14 @@
                                         <i class="fa-solid fa-upload me-1"></i> {{ $order->payment_proof ? 'Ganti Bukti Bayar' : 'Unggah Bukti Bayar' }}
                                     </button>
                                 </form>
-                            @elseif($order->payment_method === 'cod')
+                            @elseif(strtolower($order->payment_method ?? '') === 'cod')
                                 <div class="alert alert-info border-0 small mb-0">
                                     <i class="fa-solid fa-truck me-1"></i> Pembayaran dilakukan secara Cash on Delivery (COD) saat barang sampai.
                                 </div>
                             @endif
                         </div>
 
-                        <!-- STATUS FEEDBACK / ULASAN -->
+                        <!-- ULASAN / FEEDBACK -->
                         @if($order->status == 'completed')
                             <div class="pt-3 border-top mb-3 text-center">
                                 @if($order->feedback)
@@ -254,7 +262,7 @@
                                         </div>
                                         <p class="mb-0 text-muted fst-italic">"{{ $order->feedback->comment }}"</p>
                                     </div>
-                                @else
+                                @elseif(Route::has('feedback.store'))
                                     <button type="button" class="btn btn-warning text-white w-100 rounded-pill py-2 fw-semibold" data-bs-toggle="modal" data-bs-target="#feedbackModal">
                                         <i class="fa-solid fa-star me-1"></i> Beri Ulasan / Feedback
                                     </button>
@@ -262,7 +270,7 @@
                             </div>
                         @endif
 
-                        <!-- TOMBOL BATALKAN PESANAN (Hanya jika status Pending) -->
+                        <!-- BATALKAN PESANAN -->
                         @if($order->status == 'pending' && Route::has('orders.cancel'))
                             <form action="{{ route('orders.cancel', $order->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin membatalkan pesanan ini?')" class="mb-2">
                                 @csrf
@@ -280,11 +288,10 @@
                 </div>
             </div>
         </div>
-
     </div>
 
-    <!-- MODAL FORM FEEDBACK (INTERAKTIF STAR RATING) -->
-    @if($order->status == 'completed' && !$order->feedback)
+    <!-- MODAL FORM FEEDBACK -->
+    @if($order->status == 'completed' && !$order->feedback && Route::has('feedback.store'))
         <div class="modal fade" id="feedbackModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content border-0 shadow">
@@ -300,7 +307,6 @@
                         <div class="modal-body p-4 text-center">
                             <div class="mb-4">
                                 <label class="form-label fw-semibold d-block mb-2">Penilaian Anda</label>
-                                <!-- STAR RATING INTERAKTIF -->
                                 <div class="star-rating fs-2 text-warning d-flex justify-content-center gap-2" style="cursor: pointer;">
                                     <i class="fa-regular fa-star star-btn" data-value="1"></i>
                                     <i class="fa-regular fa-star star-btn" data-value="2"></i>
@@ -314,7 +320,7 @@
 
                             <div class="mb-3 text-start">
                                 <label for="comment" class="form-label fw-semibold">Komentar / Masukan</label>
-                                <textarea name="comment" id="comment" rows="4" class="form-control" placeholder="Tuliskan pengalaman belanja atau masukan Anda..." required></textarea>
+                                <textarea name="comment" id="comment" rows="4" class="form-control" placeholder="Tuliskan pengalaman belanja Anda..." required></textarea>
                             </div>
                         </div>
 
@@ -328,9 +334,8 @@
         </div>
     @endif
 
-    <!-- JAVASCRIPT UNTUK PREVIEW GAMBAR & STAR RATING -->
+    <!-- JAVASCRIPT -->
     <script>
-        // Preview Bukti Transfer
         function previewFile(input) {
             const file = input.files[0];
             if (file) {
@@ -343,7 +348,6 @@
             }
         }
 
-        // Script Star Rating Interaktif
         document.addEventListener('DOMContentLoaded', function() {
             const stars = document.querySelectorAll('.star-btn');
             const ratingInput = document.getElementById('ratingInput');
@@ -371,15 +375,15 @@
                 if(ratingText) ratingText.textContent = labels[val];
             }
 
-            // Set default 5 bintang
-            setStars(5);
-
-            stars.forEach(star => {
-                star.addEventListener('click', function() {
-                    const val = parseInt(this.getAttribute('data-value'));
-                    setStars(val);
+            if (stars.length > 0) {
+                setStars(5);
+                stars.forEach(star => {
+                    star.addEventListener('click', function() {
+                        const val = parseInt(this.getAttribute('data-value'));
+                        setStars(val);
+                    });
                 });
-            });
+            }
         });
     </script>
 </x-app-layout>
